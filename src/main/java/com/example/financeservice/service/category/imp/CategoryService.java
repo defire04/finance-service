@@ -7,6 +7,7 @@ import com.example.financeservice.model.category.Category;
 import com.example.financeservice.model.user.User;
 import com.example.financeservice.repository.category.CategoryRepository;
 import com.example.financeservice.service.base.imp.BaseEntityService;
+import com.example.financeservice.service.category.ICategoryService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.lang.NonNull;
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 @Service
-public class CategoryService extends BaseEntityService<Category, CategoryRepository> {
+public class CategoryService extends BaseEntityService<Category, CategoryRepository> implements ICategoryService {
     public CategoryService(CategoryRepository repository) {
         super(repository);
     }
@@ -62,5 +63,10 @@ public class CategoryService extends BaseEntityService<Category, CategoryReposit
         if (!Objects.equals(existingOwner.getId(), newOwner.getId())) {
             throw new CategoryDoesNotBelongToThisUserException();
         }
+    }
+
+    @NonNull
+    public Boolean existsByIdAndOwnerUsername(Long categoryId, Long userId) {
+        return repository.existsByIdAndOwnerId(categoryId, userId);
     }
 }

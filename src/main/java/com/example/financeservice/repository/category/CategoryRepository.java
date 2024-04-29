@@ -16,5 +16,5 @@ public interface CategoryRepository extends BaseEntityRepository<Category> {
 
     public Page<Category> findAllByOwnerUsername(String ownerUsername, PageRequest pageRequest);
 
-
+    Boolean existsByIdAndOwnerId(Long categoryId, Long userId);
 }

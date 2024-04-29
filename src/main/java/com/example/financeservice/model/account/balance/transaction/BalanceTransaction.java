@@ -26,7 +26,7 @@ public class BalanceTransaction extends BaseEntity {
     private Balance balance;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
     @Column(name = "amount", nullable = false)
