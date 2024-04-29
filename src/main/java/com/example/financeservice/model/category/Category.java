@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
 @Entity
 @ToString
 @Accessors(chain = true)
-@Table(name = "balance_transaction")
+@Table(name = "category")
 public class Category extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
@@ -25,6 +25,6 @@ public class Category extends BaseEntity {
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_owner_id")
+    @JoinColumn(name = "user_owner_id", nullable = false)
     private User owner;
 }

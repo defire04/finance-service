@@ -4,12 +4,14 @@ import com.example.financeservice.model.BaseEntity;
 import com.example.financeservice.model.account.balance.Balance;
 import com.example.financeservice.model.category.Category;
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -33,5 +35,9 @@ public class BalanceTransaction extends BaseEntity {
     @Column(name = "transaction_date", nullable = false)
     private Long transactionDate;
 
+    @PrePersist
+    private void prePersist() {
+        transactionDate = new Date().getTime();
+    }
 
 }

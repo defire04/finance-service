@@ -20,4 +20,6 @@ public class UserService extends BaseEntityService<User, UserRepository> impleme
         return repository.findByUsername(username);
     }
 
+
+
 }

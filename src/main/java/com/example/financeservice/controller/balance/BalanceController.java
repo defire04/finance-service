@@ -1,23 +1,22 @@
 package com.example.financeservice.controller.balance;
 
 import com.example.financeservice.dto.account.balance.BalanceDTO;
+import com.example.financeservice.dto.account.balance.RegisterBalanceDTO;
+import com.example.financeservice.dto.response.ResponseDTO;
+import com.example.financeservice.exception.balance.BalanceNotRegisterException;
+import com.example.financeservice.exception.user.UserPrincipalNotFoundException;
 import com.example.financeservice.mapper.balance.BalanceMapper;
-import com.example.financeservice.model.account.balance.Balance;
-import com.example.financeservice.model.user.User;
-import com.example.financeservice.service.balance.IBalanceService;
 import com.example.financeservice.service.balance.imp.BalanceService;
 import com.example.financeservice.service.user.IUserService;
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/balance")
+@RequestMapping("/balances")
 public class BalanceController {
 
     private final BalanceService balanceService;
@@ -28,14 +27,28 @@ public class BalanceController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody @JsonView(BalanceDTO.BalanceCreateView.class) BalanceDTO balanceDTO,
-                       Principal principal) {
-        userService.findByUsername(principal.getName()).ifPresent(user -> {
+    public ResponseDTO<BalanceDTO> create(@RequestBody RegisterBalanceDTO balanceDTO,
+                                          Principal principal) {
 
-            user.setCurrency(balanceDTO.getCurrency());
-            balanceService.create(balanceMapper.toModel(balanceDTO), user);
-        });
+        return userService.findByUsername(principal.getName())
+                .map(user -> {
+                    user.setCurrency(balanceDTO.getCurrency());
+                    return ResponseDTO.<BalanceDTO>builder()
+                            .data(balanceMapper.toDTO(balanceService.create(balanceMapper.toModel(balanceDTO), user)))
+                            .build();
+                })
+                .orElseThrow(UserPrincipalNotFoundException::new);
+    }
 
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseDTO<BalanceDTO> balance(Principal principal) {
+
+        return userService.findByUsername(principal.getName())
+                .map(user -> new ResponseDTO<>(balanceMapper.toDTO(user.getBalance())))
+                .orElseThrow(BalanceNotRegisterException::new);
 
     }
+
+
 }

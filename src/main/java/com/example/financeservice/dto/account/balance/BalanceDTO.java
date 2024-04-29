@@ -1,7 +1,10 @@
 package com.example.financeservice.dto.account.balance;
 
+import com.example.financeservice.model.user.User;
 import com.example.financeservice.model.user.currency.Currency;
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -15,8 +18,9 @@ public class BalanceDTO {
     @JsonView(BalanceCreateView.class)
     private BigDecimal amount;
 
-    @JsonView(BalanceCreateView.class)
-    private Currency currency;
+
+
+
 
 
     public interface BalanceCreateView {}

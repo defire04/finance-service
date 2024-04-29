@@ -1,19 +1,23 @@
 package com.example.financeservice.service.base;
 
 import com.example.financeservice.model.BaseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface IBaseEntityService<E extends BaseEntity> {
 
-    public List<E> getAll();
+    List<E> getAll();
 
-    public Optional<E> findById(Long id);
+    Optional<E> findById(Long id);
 
-    public E create(E entity);
+    E create(E entity);
 
-    public E update(E entity);
+    E update(E entity);
 
-    public void delete(E entity);
+    void delete(E entity);
+
+    Page<E> getAll(PageRequest pageRequest);
 }

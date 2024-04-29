@@ -18,6 +18,7 @@ public class UserMapper {
 
     private void setUserRepresentationToUser() {
         this.modelMapper.createTypeMap(UserRepresentation.class, User.class)
+
                 .addMappings(dto -> dto.skip(User::setId));
     }
 
