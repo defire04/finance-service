@@ -5,6 +5,7 @@ import com.example.financeservice.repository.BaseEntityRepository;
 import com.example.financeservice.service.base.IBaseEntityService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.lang.NonNull;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -19,36 +20,41 @@ public class BaseEntityService<E extends BaseEntity, R extends BaseEntityReposit
     }
 
     @Override
+    @NonNull
     public List<E> getAll() {
         return repository.findAll();
     }
 
     @Override
-    public Page<E> getAll(PageRequest pageRequest) {
+    @NonNull
+    public Page<E> getAll(@NonNull PageRequest pageRequest) {
         return repository.findAll(pageRequest);
     }
 
     @Override
+    @NonNull
     public Optional<E> findById(Long id) {
         return repository.findById(id);
     }
 
     @Override
+    @NonNull
     @Transactional
-    public E create(E entity) {
+    public E create(@NonNull E entity) {
         entity.setId(null);
         return repository.save(entity);
     }
 
+    @NonNull
     @Override
     @Transactional
-    public E update(E entity) {
+    public E update(@NonNull E entity) {
         return repository.save(entity);
     }
 
     @Override
     @Transactional
-    public void delete(E entity) {
+    public void delete(@NonNull E entity) {
         repository.delete(entity);
     }
 

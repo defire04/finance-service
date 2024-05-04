@@ -29,7 +29,7 @@ public class KeycloakAdminService implements IKeycloakAdminService {
 
     private final Keycloak keycloak;
 
-
+    @Override
     public RegisterDTO createUser(RegisterDTO userRegistrationRecord) throws RegistrationException {
         UserRepresentation user = getUserRepresentation(userRegistrationRecord);
 
@@ -58,6 +58,7 @@ public class KeycloakAdminService implements IKeycloakAdminService {
         }
     }
 
+    @Override
     public UserRepresentation findByUsername(String username) {
         return getUsersResource().searchByUsername(username, true).stream().findFirst().orElseThrow(() ->
                 new KeycloakUserNotFountException(username));

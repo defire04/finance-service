@@ -45,6 +45,7 @@ public class CategoryService extends BaseEntityService<Category, CategoryReposit
     }
 
     @NonNull
+    @Override
     public Page<Category> getAll(String username, int size, int page) {
         return repository.findAllByOwnerUsername(username, PageRequest.of(size, page));
     }
@@ -54,6 +55,7 @@ public class CategoryService extends BaseEntityService<Category, CategoryReposit
         checkCategoryOwnership(category);
         super.delete(category);
     }
+
 
     private void checkCategoryOwnership(@NonNull Category category) {
         Category existingCategory = repository.findById(category.getId())
@@ -66,6 +68,7 @@ public class CategoryService extends BaseEntityService<Category, CategoryReposit
     }
 
     @NonNull
+    @Override
     public Boolean existsByIdAndOwnerUsername(Long categoryId, Long userId) {
         return repository.existsByIdAndOwnerId(categoryId, userId);
     }

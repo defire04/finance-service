@@ -6,8 +6,8 @@ import com.example.financeservice.dto.response.ResponseListDTO;
 import com.example.financeservice.exception.user.UserPrincipalNotFoundException;
 import com.example.financeservice.mapper.category.CategoryMapper;
 import com.example.financeservice.model.category.Category;
-import com.example.financeservice.service.category.imp.CategoryService;
-import com.example.financeservice.service.user.imp.UserService;
+import com.example.financeservice.service.category.ICategoryService;
+import com.example.financeservice.service.user.IUserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -22,11 +22,9 @@ import java.util.List;
 @RequestMapping("/categories")
 public class CategoryController {
 
-    private final CategoryService categoryService;
-
+    private final ICategoryService categoryService;
+    private final IUserService userService;
     private final CategoryMapper categoryMapper;
-
-    private final UserService userService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
@@ -63,8 +61,6 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseDTO<CategoryDTO> update(@RequestBody @JsonView({CategoryDTO.CategoryUpdateView.class}) CategoryDTO categoryDTO,
                                            Principal principal) {
-
-
         return ResponseDTO.<CategoryDTO>builder()
                 .data(userService.findByUsername(principal.getName())
                         .map(user -> categoryService.update(categoryMapper.toModel(categoryDTO.setOwnerId(user.getId()))))
@@ -81,7 +77,5 @@ public class CategoryController {
         userService.findByUsername(principal.getName()).ifPresent(user -> {
             categoryService.delete(categoryMapper.toModel(categoryDTO.setOwnerId(user.getId())));
         });
-
-
     }
 }
