@@ -1,4 +1,4 @@
-package com.example.financeservice.service.keycloak;
+package com.example.financeservice.service.auth;
 
 import com.example.financeservice.dto.auth.RegisterDTO;
 import com.example.financeservice.exception.registration.RegistrationException;

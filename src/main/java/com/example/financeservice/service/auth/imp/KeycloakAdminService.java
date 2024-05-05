@@ -1,11 +1,10 @@
-package com.example.financeservice.service.keycloak.imp;
+package com.example.financeservice.service.auth.imp;
 
 import com.example.financeservice.dto.auth.RegisterDTO;
 import com.example.financeservice.exception.registration.RegistrationException;
 import com.example.financeservice.exception.user.UserNotFountException;
-import com.example.financeservice.service.keycloak.IAdminService;
+import com.example.financeservice.service.auth.IAdminService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;

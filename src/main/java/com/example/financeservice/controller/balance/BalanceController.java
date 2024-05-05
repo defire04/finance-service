@@ -11,6 +11,7 @@ import com.example.financeservice.mapper.balance.BalanceMapper;
 import com.example.financeservice.mapper.balance.transaction.BalanceTransactionMapper;
 import com.example.financeservice.model.account.balance.Balance;
 import com.example.financeservice.model.account.balance.transaction.BalanceTransaction;
+import com.example.financeservice.service.balance.IBalanceService;
 import com.example.financeservice.service.balance.imp.BalanceService;
 import com.example.financeservice.service.user.IUserService;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -26,7 +27,7 @@ import java.util.List;
 @RequestMapping("/balances")
 public class BalanceController {
 
-    private final BalanceService balanceService;
+    private final IBalanceService balanceService;
     private final IUserService userService;
 
     private final BalanceMapper balanceMapper;
