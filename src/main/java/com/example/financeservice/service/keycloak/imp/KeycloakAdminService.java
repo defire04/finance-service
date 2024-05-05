@@ -2,8 +2,8 @@ package com.example.financeservice.service.keycloak.imp;
 
 import com.example.financeservice.dto.auth.RegisterDTO;
 import com.example.financeservice.exception.registration.RegistrationException;
-import com.example.financeservice.exception.user.KeycloakUserNotFountException;
-import com.example.financeservice.service.keycloak.IKeycloakAdminService;
+import com.example.financeservice.exception.user.UserNotFountException;
+import com.example.financeservice.service.keycloak.IAdminService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.keycloak.admin.client.Keycloak;
@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class KeycloakAdminService implements IKeycloakAdminService {
+public class KeycloakAdminService implements IAdminService {
 
     @Value("${keycloak.realm}")
     private String realm;
@@ -61,7 +61,7 @@ public class KeycloakAdminService implements IKeycloakAdminService {
     @Override
     public UserRepresentation findByUsername(String username) {
         return getUsersResource().searchByUsername(username, true).stream().findFirst().orElseThrow(() ->
-                new KeycloakUserNotFountException(username));
+                new UserNotFountException(username));
     }
 
     private static UserRepresentation getUserRepresentation(RegisterDTO userRegistrationRecord) {
