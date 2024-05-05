@@ -2,10 +2,10 @@ package com.example.financeservice.service.keycloak;
 
 import com.example.financeservice.dto.auth.RegisterDTO;
 import com.example.financeservice.exception.registration.RegistrationException;
-import com.example.financeservice.exception.user.KeycloakUserNotFountException;
+import com.example.financeservice.exception.user.UserNotFountException;
 import org.keycloak.representations.idm.UserRepresentation;
 
-public interface IKeycloakAdminService {
+public interface IAdminService {
     /**
      * Creates a new user in Keycloak.
      *
@@ -20,7 +20,7 @@ public interface IKeycloakAdminService {
      *
      * @param username The username to search for
      * @return The user representation if found
-     * @throws KeycloakUserNotFountException If the user is not found in Keycloak
+     * @throws UserNotFountException If the user is not found in Keycloak
      */
-    UserRepresentation findByUsername(String username) throws KeycloakUserNotFountException;
+    UserRepresentation findByUsername(String username) throws UserNotFountException;
 }
