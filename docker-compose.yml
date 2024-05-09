@@ -11,8 +11,6 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
-    networks:
-      - my_network
 
   keycloak-db:
     image: postgres:14.7-alpine
@@ -23,8 +21,6 @@ services:
     ports:
       - "5433:5432"
     restart: unless-stopped
-    networks:
-      - my_network
 
   keycloak:
     image: quay.io/keycloak/keycloak:21.1.1
@@ -32,7 +28,6 @@ services:
       - "-v start-dev"
       - "--http-port=9999"
       - "--import-realm"
-    restart: unless-stopped
     ports:
       - "9999:9999"
     environment:
@@ -40,15 +35,10 @@ services:
       KC_DB_PASSWORD: 1
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloak-db:5432/keycloak-db
-      KC_REALM_NAME: finance-service-realm
       KEYCLOAK_ADMIN: root
       KEYCLOAK_ADMIN_PASSWORD: 1
     volumes:
       - ./keycloak:/opt/keycloak/data/import
-    networks:
-      my_network:
-        aliases:
-          - "keycloak"
     depends_on:
       - keycloak-db
 
@@ -59,19 +49,13 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SERVER_PORT= 8080
+      - SERVER_PORT=8080
       - SPRING_DATASOURCE_URL=jdbc:postgresql://project-db:5432/finance-service-db
-      - keycloak.url=http://keycloak:9999
-      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
-    links:
-      - keycloak
-    networks:
-      - my_network
+      - SPRING_DATASOURCE_USERNAME=username
+      - SPRING_DATASOURCE_PASSWORD=password
+      - KEYCLOAK_URL=http://keycloak:9999
+    #      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=TRACE
     depends_on:
       - project-db
       - keycloak
 
-
-networks:
-  my_network:
-    driver: bridge
