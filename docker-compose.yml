@@ -43,11 +43,12 @@ services:
       KC_REALM_NAME: finance-service-realm
       KEYCLOAK_ADMIN: root
       KEYCLOAK_ADMIN_PASSWORD: 1
-      KC_LOG_LEVEL: debug
     volumes:
       - ./keycloak:/opt/keycloak/data/import
     networks:
-      - my_network
+      my_network:
+        aliases:
+          - "keycloak"
     depends_on:
       - keycloak-db
 
