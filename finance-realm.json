@@ -1,0 +1,44 @@
+{
+  "id": "finance-service-realm",
+  "realm": "finance-service-realm",
+  "enabled": true,
+  "registrationAllowed": false,
+  "accessTokenLifespan": 900,
+  "requiredCredentials": [
+    "password"
+  ],
+  "clients": [
+    {
+      "id": "finance-service",
+      "clientId": "finance-service",
+      "name": "finance-service",
+      "enabled": true,
+      "publicClient": true,
+      "rootUrl": "http://localhost",
+      "adminUrl": "http://localhost",
+      "baseUrl": "http://localhost",
+      "redirectUris": [
+        "http://localhost/*"
+      ],
+      "webOrigins": [
+        "http://localhost"
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": "admin",
+      "enabled": true,
+      "username": "admin",
+      "emailVerified": true,
+      "credentials": [
+        {
+          "temporary": false,
+          "type": "password",
+          "value": "1234"
+        }
+      ],
+      "realmRoles": ["realm-admin"]
+    }
+  ]
+}

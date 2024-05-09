@@ -32,6 +32,8 @@ public class AuthController {
     @GetMapping("/sign-in")
     @ResponseStatus(HttpStatus.OK)
     public User signIn(Principal principal) {
+        System.out.println(principal.getName());
+
         return userService.findByUsername(principal.getName())
                 .orElseGet(() -> {
                     UserRepresentation representation = adminService.findByUsername(principal.getName());
