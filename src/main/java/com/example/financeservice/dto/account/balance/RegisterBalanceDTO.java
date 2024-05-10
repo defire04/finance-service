@@ -12,6 +12,6 @@ public class RegisterBalanceDTO {
     @Schema(description = "Amount", example = "1000.00")
     private BigDecimal amount;
 
-    @Schema(description = "Currency", example = "UAN")
+    @Schema(description = "Currency", example = "UAH")
     private Currency currency;
 }
