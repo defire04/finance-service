@@ -5,7 +5,7 @@ import com.example.financeservice.exception.registration.RegistrationException;
 import com.example.financeservice.exception.user.UserNotFountException;
 import org.keycloak.representations.idm.UserRepresentation;
 
-public interface IAdminService {
+public interface IRegisterService {
     /**
      * Creates a new user in Keycloak.
      *

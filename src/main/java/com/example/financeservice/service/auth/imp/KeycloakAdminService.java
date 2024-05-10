@@ -3,7 +3,7 @@ package com.example.financeservice.service.auth.imp;
 import com.example.financeservice.dto.auth.RegisterDTO;
 import com.example.financeservice.exception.registration.RegistrationException;
 import com.example.financeservice.exception.user.UserNotFountException;
-import com.example.financeservice.service.auth.IAdminService;
+import com.example.financeservice.service.auth.IRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class KeycloakAdminService implements IAdminService {
+public class KeycloakAdminService implements IRegisterService {
 
     @Value("${keycloak.realm}")
     private String realm;
@@ -34,14 +34,12 @@ public class KeycloakAdminService implements IAdminService {
 
         UsersResource usersResource = getUsersResource();
 
-
         try (Response response = usersResource.create(user)) {
 
             if (response.getStatus() == Response.Status.CREATED.getStatusCode()) {
                 return userRegistrationRecord;
             } else {
-                Map<String, String> resultMap = response.readEntity(new GenericType<>() {
-                });
+                Map<String, String> resultMap = response.readEntity(new GenericType<>() {});
                 throw new RegistrationException(response.getStatus(), resultMap.get("errorMessage"));
             }
         } catch (Exception e) {

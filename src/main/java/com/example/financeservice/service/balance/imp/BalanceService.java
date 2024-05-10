@@ -17,6 +17,7 @@ import com.example.financeservice.service.base.imp.BaseEntityService;
 import com.example.financeservice.service.category.ICategoryService;
 import com.example.financeservice.service.category.imp.CategoryService;
 import com.example.financeservice.service.piggy.IPiggyService;
+import com.example.financeservice.service.piggy.imp.PiggyService;
 import com.example.financeservice.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -36,7 +37,7 @@ public class BalanceService extends BaseEntityService<Balance, BalanceRepository
 
     @Lazy
     @Autowired
-    private IPiggyService piggyService;
+    private PiggyService piggyService;
 
     public BalanceService(BalanceRepository repository, IUserService userService, CategoryService categoryService) {
         super(repository);
@@ -117,4 +118,6 @@ public class BalanceService extends BaseEntityService<Balance, BalanceRepository
         piggyService.update(piggyBank);
         return balance;
     }
+
+
 }

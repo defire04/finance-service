@@ -3,7 +3,7 @@ package com.example.financeservice.controller.auth;
 import com.example.financeservice.dto.auth.RegisterDTO;
 import com.example.financeservice.mapper.user.UserMapper;
 import com.example.financeservice.model.user.User;
-import com.example.financeservice.service.auth.IAdminService;
+import com.example.financeservice.service.auth.IRegisterService;
 import com.example.financeservice.service.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -17,7 +17,7 @@ import java.security.Principal;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final IAdminService adminService;
+    private final IRegisterService adminService;
 
     private final IUserService userService;
 

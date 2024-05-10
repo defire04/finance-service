@@ -56,6 +56,11 @@ public class CategoryService extends BaseEntityService<Category, CategoryReposit
         super.delete(category);
     }
 
+    @NonNull
+    @Override
+    public Boolean existsByIdAndOwnerUsername(Long categoryId, Long userId) {
+        return repository.existsByIdAndOwnerId(categoryId, userId);
+    }
 
     private void checkCategoryOwnership(@NonNull Category category) {
         Category existingCategory = repository.findById(category.getId())
@@ -67,9 +72,6 @@ public class CategoryService extends BaseEntityService<Category, CategoryReposit
         }
     }
 
-    @NonNull
-    @Override
-    public Boolean existsByIdAndOwnerUsername(Long categoryId, Long userId) {
-        return repository.existsByIdAndOwnerId(categoryId, userId);
-    }
+
+
 }
