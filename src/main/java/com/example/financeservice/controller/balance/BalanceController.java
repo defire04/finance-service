@@ -12,7 +12,6 @@ import com.example.financeservice.mapper.balance.transaction.BalanceTransactionM
 import com.example.financeservice.model.account.balance.Balance;
 import com.example.financeservice.model.account.balance.transaction.BalanceTransaction;
 import com.example.financeservice.service.balance.IBalanceService;
-import com.example.financeservice.service.balance.imp.BalanceService;
 import com.example.financeservice.service.user.IUserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,9 +62,10 @@ public class BalanceController {
 
     @PostMapping("/transactions")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseDTO<BalanceDTO> createTransaction
-            (@RequestBody @JsonView(BalanceTransactionDTO.BalanceTransactionCreateView.class) BalanceTransactionDTO balanceTransactionDTO,
-             Principal principal) {
+    public ResponseDTO<BalanceDTO> createTransaction(@RequestBody @JsonView(BalanceTransactionDTO.BalanceTransactionCreateView.class) BalanceTransactionDTO balanceTransactionDTO,
+                                                     Principal principal)
+
+    {
         return userService.findByUsername(principal.getName())
                 .map(user -> {
                     BalanceTransaction transaction = balanceTransactionMapper.toModel(balanceTransactionDTO);
@@ -73,10 +75,29 @@ public class BalanceController {
     }
 
     @GetMapping("/transactions")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseDTO<List<BalanceTransactionDTO>> getTransactionByUser(Principal principal) {
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseDTO<List<BalanceTransactionDTO>> getTransactionByUser(Principal principal,
+                                                                         @RequestParam(name="from", required = false) Optional<Long> from,
+                                                                         @RequestParam(name="till", required = false) Optional<Long> till) {
+
         return userService.findByUsername(principal.getName())
-                .map(user -> new ResponseDTO<>(user.getBalance().getBalanceTransactions().stream().map(balanceTransactionMapper::toDTO).toList()))
+                .map(user -> {
+                    List<BalanceTransaction> transactions = user.getBalance().getBalanceTransactions();
+                    Stream<BalanceTransaction> stream = transactions.stream();
+
+                    if (from.isPresent()) {
+                        stream = stream.filter(tx -> tx.getTransactionDate() >= from.get());
+                    }
+                    if (till.isPresent()) {
+                        stream = stream.filter(tx -> tx.getTransactionDate() <= till.get());
+                    }
+
+                    List<BalanceTransactionDTO> transactionDTOs = stream
+                            .map(balanceTransactionMapper::toDTO)
+                            .toList();
+
+                    return new ResponseDTO<>(transactionDTOs);
+                })
                 .orElseThrow(UserPrincipalNotFoundException::new);
     }
 

@@ -17,6 +17,14 @@ public class BalanceDTO {
     @JsonView(BalanceCreateView.class)
     private BigDecimal amount;
 
+    @Schema(description = "Income all time amount")
+    @JsonView(BalanceAll.class)
+    private BigDecimal incomeAmount;
+
+    @Schema(description = "Expense all time amount")
+    @JsonView(BalanceAll.class)
+    private BigDecimal expenseAmount;
+
 
     public interface BalanceCreateView {
     }

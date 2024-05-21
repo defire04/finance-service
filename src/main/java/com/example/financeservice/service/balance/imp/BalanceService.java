@@ -2,9 +2,9 @@ package com.example.financeservice.service.balance.imp;
 
 import com.example.financeservice.exception.balance.BalanceAlreadyExitsException;
 import com.example.financeservice.exception.balance.NotEnoughAmountForThisTransaction;
+import com.example.financeservice.exception.balance.transaction.TransactionCantHaveNegativeNumberException;
 import com.example.financeservice.exception.category.CategoryDoesNotBelongToThisUserException;
-import com.example.financeservice.exception.piggy.PiggyBankDoesNotBelongToThisUserException;
-import com.example.financeservice.exception.piggy.PiggyBankDoesNotExistException;
+import com.example.financeservice.exception.category.CategoryInvalidTypeException;
 import com.example.financeservice.model.account.balance.Balance;
 import com.example.financeservice.model.account.balance.transaction.BalanceTransaction;
 import com.example.financeservice.model.account.piggy.PiggyBank;
@@ -16,7 +16,6 @@ import com.example.financeservice.service.balance.IBalanceService;
 import com.example.financeservice.service.base.imp.BaseEntityService;
 import com.example.financeservice.service.category.ICategoryService;
 import com.example.financeservice.service.category.imp.CategoryService;
-import com.example.financeservice.service.piggy.IPiggyService;
 import com.example.financeservice.service.piggy.imp.PiggyService;
 import com.example.financeservice.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +73,10 @@ public class BalanceService extends BaseEntityService<Balance, BalanceRepository
         Optional<Category> categoryServiceById = categoryService.findById(transaction.getCategory().getId());
         Balance userBalance = user.getBalance();
 
+        if(transaction.getAmount().longValue() < 0){
+            throw new TransactionCantHaveNegativeNumberException();
+        }
+
         categoryServiceById.ifPresent(category -> {
 
             if (category.getCategoryType().equals(CategoryType.INCOME)) {
@@ -81,7 +84,7 @@ public class BalanceService extends BaseEntityService<Balance, BalanceRepository
             } else if (category.getCategoryType().equals(CategoryType.EXPENSE)) {
                 userBalance.setAmount(userBalance.getAmount().subtract(transaction.getAmount()));
             } else {
-                throw new RuntimeException("Invalid category type!");
+                throw new CategoryInvalidTypeException();
             }
 
             transaction.setBalance(userBalance);
@@ -118,6 +121,7 @@ public class BalanceService extends BaseEntityService<Balance, BalanceRepository
         piggyService.update(piggyBank);
         return balance;
     }
+
 
 
 }
