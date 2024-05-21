@@ -1,5 +1,6 @@
 package com.example.financeservice.dto.account.balance;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
@@ -19,10 +20,12 @@ public class BalanceDTO {
 
     @Schema(description = "Income all time amount")
     @JsonView(BalanceAll.class)
+    @JsonProperty("income_amount")
     private BigDecimal incomeAmount;
 
     @Schema(description = "Expense all time amount")
     @JsonView(BalanceAll.class)
+    @JsonProperty("expense_amount")
     private BigDecimal expenseAmount;
 
 

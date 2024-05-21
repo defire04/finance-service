@@ -3,8 +3,8 @@ package com.example.financeservice.model.account.balance.transaction;
 import com.example.financeservice.model.BaseEntity;
 import com.example.financeservice.model.account.balance.Balance;
 import com.example.financeservice.model.category.Category;
+import com.example.financeservice.model.category.type.CategoryType;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,6 +29,9 @@ public class BalanceTransaction extends BaseEntity {
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
+    @Transient
+    private CategoryType categoryType;
+
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
@@ -40,4 +43,7 @@ public class BalanceTransaction extends BaseEntity {
         transactionDate = new Date().getTime();
     }
 
+    public CategoryType getCategoryType() {
+        return category.getCategoryType();
+    }
 }

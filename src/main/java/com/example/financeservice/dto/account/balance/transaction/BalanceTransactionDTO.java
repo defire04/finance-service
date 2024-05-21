@@ -1,5 +1,6 @@
 package com.example.financeservice.dto.account.balance.transaction;
 
+import com.example.financeservice.model.category.type.CategoryType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
@@ -33,6 +34,10 @@ public class BalanceTransactionDTO {
     @JsonProperty("transaction_date")
     @JsonView(BalanceTransactionAll.class)
     private Long transactionDate;
+
+    @JsonProperty("category_type")
+    @JsonView(BalanceTransactionAll.class)
+    private CategoryType categoryType;
 
     public interface BalanceTransactionCreateView {
     }
