@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,6 +16,7 @@ public interface CategoryRepository extends BaseEntityRepository<Category> {
     public Optional<Category> findByNameAndOwner(String name, User owner);
 
     public Page<Category> findAllByOwnerUsername(String ownerUsername, PageRequest pageRequest);
+    public List<Category> findAllByOwnerUsername(String ownerUsername);
 
     Boolean existsByIdAndOwnerId(Long categoryId, Long userId);
 }

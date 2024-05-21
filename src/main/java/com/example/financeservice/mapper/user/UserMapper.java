@@ -1,5 +1,6 @@
 package com.example.financeservice.mapper.user;
 
+import com.example.financeservice.dto.auth.SignInUserDTO;
 import com.example.financeservice.model.user.User;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.modelmapper.ModelMapper;
@@ -18,8 +19,11 @@ public class UserMapper {
 
     private void setUserRepresentationToUser() {
         this.modelMapper.createTypeMap(UserRepresentation.class, User.class)
-
                 .addMappings(dto -> dto.skip(User::setId));
+    }
+
+    private void setSignIn() {
+        this.modelMapper.createTypeMap(User.class, SignInUserDTO.class);
     }
 
     public User toModel(UserRepresentation dto) {
@@ -28,5 +32,9 @@ public class UserMapper {
 
     public UserRepresentation toUserRepresentation(User model) {
         return modelMapper.map(model, UserRepresentation.class);
+    }
+
+    public SignInUserDTO toSignInDTO(User model) {
+        return modelMapper.map(model, SignInUserDTO.class);
     }
 }

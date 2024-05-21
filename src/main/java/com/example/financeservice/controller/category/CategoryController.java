@@ -2,15 +2,13 @@ package com.example.financeservice.controller.category;
 
 import com.example.financeservice.dto.category.CategoryDTO;
 import com.example.financeservice.dto.response.ResponseDTO;
-import com.example.financeservice.dto.response.ResponseListDTO;
 import com.example.financeservice.exception.user.UserPrincipalNotFoundException;
 import com.example.financeservice.mapper.category.CategoryMapper;
-import com.example.financeservice.model.category.Category;
+import com.example.financeservice.model.category.type.CategoryType;
 import com.example.financeservice.service.category.ICategoryService;
 import com.example.financeservice.service.user.IUserService;
 import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,20 +38,11 @@ public class CategoryController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseListDTO<List<CategoryDTO>> getAllByUser(@RequestParam(required = false, defaultValue = "0") int page,
-                                                           @RequestParam(required = false, defaultValue = "5") int size,
-                                                           Principal principal) {
-        Page<Category> pageData = categoryService.getAll(principal.getName(), page, size);
-        List<CategoryDTO> categoryDTOs = pageData.getContent().stream()
-                .map(categoryMapper::toDTO)
-                .toList();
+    public ResponseDTO<List<CategoryDTO>> getAllByUser(@RequestParam("category_type") CategoryType categoryType, Principal principal) {
 
-        return ResponseListDTO.<List<CategoryDTO>>builder()
-                .currentPage(pageData.getNumber())
-                .size(pageData.getSize())
-                .data(categoryDTOs)
-                .totalElements(pageData.getTotalElements())
-                .totalPages(pageData.getTotalPages())
+
+        return ResponseDTO.<List<CategoryDTO>>builder()
+                .data(categoryService.getAll(principal.getName()).stream().filter(category -> category.getCategoryType().equals(categoryType)).map(categoryMapper::toDTO).toList())
                 .build();
     }
 

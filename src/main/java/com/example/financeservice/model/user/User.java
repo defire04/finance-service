@@ -5,6 +5,7 @@ import com.example.financeservice.model.account.balance.Balance;
 import com.example.financeservice.model.account.piggy.PiggyBank;
 import com.example.financeservice.model.category.Category;
 import com.example.financeservice.model.user.currency.Currency;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,9 +25,11 @@ import java.util.List;
 @Table(name = "service_user")
 public class User extends BaseEntity {
 
+    @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     private List<PiggyBank> piggyBanks = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Category> categories;
 

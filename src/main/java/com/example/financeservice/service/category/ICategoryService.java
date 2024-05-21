@@ -7,6 +7,8 @@ import com.example.financeservice.service.base.IBaseEntityService;
 import org.springframework.data.domain.Page;
 import org.springframework.lang.NonNull;
 
+import java.util.List;
+
 public interface ICategoryService extends IBaseEntityService<Category> {
 
 
@@ -34,12 +36,10 @@ public interface ICategoryService extends IBaseEntityService<Category> {
      * Retrieves all categories belonging to a specific user.
      *
      * @param username The username of the user
-     * @param size     The desired page size
-     * @param page     The page number to retrieve
      * @return A page of categories belonging to the specified user
      */
     @NonNull
-    Page<Category> getAll(String username, int size, int page);
+    List<Category> getAll(String username);
 
     /**
      * Deletes a category.

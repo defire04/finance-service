@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -46,8 +47,8 @@ public class CategoryService extends BaseEntityService<Category, CategoryReposit
 
     @NonNull
     @Override
-    public Page<Category> getAll(String username, int size, int page) {
-        return repository.findAllByOwnerUsername(username, PageRequest.of(size, page));
+    public List<Category> getAll(String username) {
+        return repository.findAllByOwnerUsername(username);
     }
 
     @Override

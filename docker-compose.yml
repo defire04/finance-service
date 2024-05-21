@@ -51,6 +51,7 @@ services:
     environment:
       SERVER_PORT: 8080
       KEYCLOAK_URL: http://keycloak:9999
+      KEYCLOAK_REALM: finance-service-realm
       SPRING_DATASOURCE_USERNAME: username
       SPRING_DATASOURCE_PASSWORD: password
       SPRING_DATASOURCE_URL: jdbc:postgresql://project-db:5432/finance-service-db
