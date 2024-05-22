@@ -4,6 +4,7 @@ import com.example.financeservice.model.category.type.CategoryType;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonView;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -39,6 +40,9 @@ public class BalanceTransactionDTO {
     @JsonView(BalanceTransactionAll.class)
     private CategoryType categoryType;
 
+    @JsonProperty("category_name")
+    @JsonView(BalanceTransactionAll.class)
+    private String categoryName;
     public interface BalanceTransactionCreateView {
     }
 

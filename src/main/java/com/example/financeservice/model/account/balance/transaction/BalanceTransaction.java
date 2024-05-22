@@ -32,6 +32,9 @@ public class BalanceTransaction extends BaseEntity {
     @Transient
     private CategoryType categoryType;
 
+    @Transient
+    private String categoryName;
+
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 
@@ -45,5 +48,9 @@ public class BalanceTransaction extends BaseEntity {
 
     public CategoryType getCategoryType() {
         return category.getCategoryType();
+    }
+
+    public String getCategoryName() {
+        return category.getName();
     }
 }
