@@ -8,11 +8,9 @@ import com.example.financeservice.service.auth.IRegisterService;
 import com.example.financeservice.service.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.representations.idm.UserRepresentation;
-import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.security.Principal;
 
 @RestController
