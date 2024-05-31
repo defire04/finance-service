@@ -12,7 +12,6 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Entity
-@ToString
 @Accessors(chain = true)
 @Table(name = "piggy_bank")
 public class PiggyBank extends BaseAccount {

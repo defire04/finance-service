@@ -19,7 +19,6 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@ToString
 @DynamicUpdate
 @Accessors(chain = true)
 @Table(name = "service_user")
